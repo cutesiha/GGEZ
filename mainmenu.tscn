@@ -1,0 +1,633 @@
+[gd_scene format=3 uid="uid://du51426afj46c"]
+
+[ext_resource type="Texture2D" uid="uid://b25l3cnqy45ma" path="res://images/menu.png" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://bobbmc3tnxjrm" path="res://images/black.png" id="2_black"]
+[ext_resource type="Texture2D" uid="uid://bufwh5kflbgwq" path="res://images/stages.png" id="3_3pujl"]
+[ext_resource type="FontFile" uid="uid://d0byd5ewwok5e" path="res://fonts/Mona12TextJP.ttf" id="4_menu_font"]
+[ext_resource type="Script" uid="uid://dp8y7m3xefw4a" path="res://MainMenu.gd" id="5_main_menu"]
+[ext_resource type="Texture2D" uid="uid://mqjs4jat01hc" path="res://images/players.png" id="6_players"]
+[ext_resource type="Texture2D" uid="uid://dvq4028mpncl2" path="res://images/up.png" id="7_sync_note"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_settings_panel"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_settings_title"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_box"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[node name="Mainmenu" type="Node2D" unique_id=1813970032]
+script = ExtResource("5_main_menu")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=430758670]
+
+[node name="hwa" type="TextureRect" parent="CanvasGroup" unique_id=1222046642]
+offset_right = 159.0
+offset_bottom = 114.0
+scale = Vector2(8.280001, 6.6)
+texture = ExtResource("2_black")
+
+[node name="StageMap" type="Node2D" parent="CanvasGroup" unique_id=1182486077]
+position = Vector2(-231, 0)
+
+[node name="Stages" type="TextureRect" parent="CanvasGroup/StageMap" unique_id=82018229]
+offset_top = 10.0
+offset_right = 3139.0
+offset_bottom = 730.0
+mouse_filter = 2
+texture = ExtResource("3_3pujl")
+
+[node name="Players" type="TextureRect" parent="CanvasGroup/StageMap" unique_id=2082427615]
+offset_top = 10.0
+offset_right = 3139.0
+offset_bottom = 730.0
+mouse_filter = 2
+texture = ExtResource("6_players")
+
+[node name="SettingsBackdrop" type="ColorRect" parent="CanvasGroup" unique_id=689586146]
+visible = false
+offset_left = 278.0
+offset_top = 100.0
+offset_right = 984.0
+offset_bottom = 619.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="gameobject" type="TextureRect" parent="CanvasGroup" unique_id=1309819841]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_menu")
+
+[node name="SettingsPanel" type="Panel" parent="CanvasGroup" unique_id=2037304045]
+visible = false
+offset_left = 330.0
+offset_top = 160.0
+offset_right = 950.0
+offset_bottom = 560.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_panel")
+
+[node name="TitleBox" type="Panel" parent="CanvasGroup/SettingsPanel" unique_id=487859893]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 155.0
+offset_bottom = 66.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_title")
+
+[node name="Text" type="Label" parent="CanvasGroup/SettingsPanel/TitleBox" unique_id=980197049]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 25
+text = "설정"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cursor" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1462308490]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 105.0
+offset_right = 48.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 23
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterName" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1647923958]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 105.0
+offset_right = 222.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "마스터 볼륨"
+vertical_alignment = 1
+
+[node name="MasterValue" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1250521026]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 105.0
+offset_right = 600.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="MusicName" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1273826713]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 171.0
+offset_right = 222.0
+offset_bottom = 207.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "배경음악 볼륨"
+vertical_alignment = 1
+
+[node name="MusicValue" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1696270431]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 171.0
+offset_right = 600.0
+offset_bottom = 207.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="SfxName" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1218360534]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 237.0
+offset_right = 222.0
+offset_bottom = 273.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "효과음 볼륨"
+vertical_alignment = 1
+
+[node name="SfxValue" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1447331927]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 237.0
+offset_right = 600.0
+offset_bottom = 273.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="FullscreenName" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=1185687090]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 303.0
+offset_right = 245.0
+offset_bottom = 347.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 22
+text = "전체화면"
+vertical_alignment = 1
+
+[node name="FullscreenO" type="Panel" parent="CanvasGroup/SettingsPanel" unique_id=1034613693]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 303.0
+offset_right = 358.0
+offset_bottom = 347.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/SettingsPanel/FullscreenO" unique_id=526314529]
+layout_mode = 0
+offset_right = 58.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "O"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slash" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=557194717]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 303.0
+offset_right = 382.0
+offset_bottom = 347.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "/"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FullscreenX" type="Panel" parent="CanvasGroup/SettingsPanel" unique_id=842065955]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 303.0
+offset_right = 444.0
+offset_bottom = 347.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/SettingsPanel/FullscreenX" unique_id=1614178550]
+layout_mode = 0
+offset_right = 58.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Help" type="Label" parent="CanvasGroup/SettingsPanel" unique_id=258503790]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 15
+text = "↑↓ 선택   ←→ 조절   ESC 돌아가기"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AchievementsPanel" type="Panel" parent="CanvasGroup" unique_id=42117289]
+visible = false
+offset_left = 330.0
+offset_top = 160.0
+offset_right = 950.0
+offset_bottom = 560.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_panel")
+
+[node name="TitleBox" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=2076633211]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 180.0
+offset_bottom = 66.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_title")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/TitleBox" unique_id=33588936]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 23
+text = "도전과제"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Help" type="Label" parent="CanvasGroup/AchievementsPanel" unique_id=92939233]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.58)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 15
+text = "↑↓ 선택   ESC 돌아가기"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AchievementSlot0" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=782651584]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 75.0
+offset_right = 595.0
+offset_bottom = 125.0
+
+[node name="Inner" type="Panel" parent="CanvasGroup/AchievementsPanel/AchievementSlot0" unique_id=1204586884]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 565.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/AchievementSlot0/Inner" unique_id=1383793237]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 544.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 18
+text = "01  첫 싸움에 입장하기"
+vertical_alignment = 1
+
+[node name="AchievementSlot1" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=947277900]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 133.0
+offset_right = 595.0
+offset_bottom = 183.0
+
+[node name="Inner" type="Panel" parent="CanvasGroup/AchievementsPanel/AchievementSlot1" unique_id=811533562]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 565.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/AchievementSlot1/Inner" unique_id=337928575]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 544.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 18
+text = "02  PERFECT 판정 10회 달성"
+vertical_alignment = 1
+
+[node name="AchievementSlot2" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=1937580882]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 191.0
+offset_right = 595.0
+offset_bottom = 241.0
+
+[node name="Inner" type="Panel" parent="CanvasGroup/AchievementsPanel/AchievementSlot2" unique_id=1515594930]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 565.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/AchievementSlot2/Inner" unique_id=1521901505]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 544.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 18
+text = "03  콤보 25회 이어가기"
+vertical_alignment = 1
+
+[node name="AchievementSlot3" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=150041297]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 249.0
+offset_right = 595.0
+offset_bottom = 299.0
+
+[node name="Inner" type="Panel" parent="CanvasGroup/AchievementsPanel/AchievementSlot3" unique_id=1612050772]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 565.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/AchievementSlot3/Inner" unique_id=2101583641]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 544.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 18
+text = "04  Stage 1 클리어"
+vertical_alignment = 1
+
+[node name="AchievementSlot4" type="Panel" parent="CanvasGroup/AchievementsPanel" unique_id=1864676054]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 307.0
+offset_right = 595.0
+offset_bottom = 357.0
+
+[node name="Inner" type="Panel" parent="CanvasGroup/AchievementsPanel/AchievementSlot4" unique_id=2147373722]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 565.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsPanel/AchievementSlot4/Inner" unique_id=617970793]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 544.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 18
+text = "05  하이라이트 공격 성공"
+vertical_alignment = 1
+
+[node name="SyncPanel" type="Panel" parent="CanvasGroup" unique_id=311854904]
+visible = false
+offset_left = 330.0
+offset_top = 160.0
+offset_right = 950.0
+offset_bottom = 560.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_panel")
+
+[node name="TitleBox" type="Panel" parent="CanvasGroup/SyncPanel" unique_id=2048502597]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 155.0
+offset_bottom = 66.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_title")
+
+[node name="Text" type="Label" parent="CanvasGroup/SyncPanel/TitleBox" unique_id=1781340955]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 25
+text = "싱크"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Help" type="Label" parent="CanvasGroup/SyncPanel" unique_id=1654464685]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 8.0
+offset_right = 600.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.58)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 14
+text = "Space로 박자 맞추기
+Enter 싱크 저장 / ESC 돌아가기"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="NoteField" type="Control" parent="CanvasGroup/SyncPanel" unique_id=2092558357]
+clip_contents = true
+anchors_preset = 0
+offset_left = 230.0
+offset_top = 55.0
+offset_right = 390.0
+offset_bottom = 270.0
+mouse_filter = 2
+
+[node name="TargetOutline" type="TextureRect" parent="CanvasGroup/SyncPanel/NoteField" unique_id=1552754725]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 93.0
+offset_right = 128.0
+offset_bottom = 189.0
+mouse_filter = 2
+texture = ExtResource("7_sync_note")
+expand_mode = 1
+
+[node name="TargetNote" type="TextureRect" parent="CanvasGroup/SyncPanel/NoteField" unique_id=435758105]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 93.0
+offset_right = 128.0
+offset_bottom = 189.0
+mouse_filter = 2
+texture = ExtResource("7_sync_note")
+expand_mode = 1
+
+[node name="Countdown" type="Label" parent="CanvasGroup/SyncPanel" unique_id=828557537]
+visible = false
+layout_mode = 0
+offset_left = 210.0
+offset_top = 100.0
+offset_right = 410.0
+offset_bottom = 235.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 86
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SyncButton" type="Panel" parent="CanvasGroup/SyncPanel" unique_id=757528864]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 275.0
+offset_right = 415.0
+offset_bottom = 325.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/SyncPanel/SyncButton" unique_id=439495246]
+layout_mode = 0
+offset_right = 210.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "싱크 맞추기"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentSync" type="Label" parent="CanvasGroup/SyncPanel" unique_id=1794937141]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 332.0
+offset_right = 530.0
+offset_bottom = 382.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 28
+text = "현재 싱크: +0 ms"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectionArrow" type="Label" parent="CanvasGroup" unique_id=1892521231]
+offset_left = 612.0
+offset_top = 156.0
+offset_right = 672.0
+offset_bottom = 206.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 38
+text = "v"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsBox" type="PanelContainer" parent="CanvasGroup" unique_id=470874199]
+offset_left = 294.0
+offset_top = 552.0
+offset_right = 438.0
+offset_bottom = 604.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/SettingsBox" unique_id=1179872491]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "설정"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AchievementsBox" type="PanelContainer" parent="CanvasGroup" unique_id=2038931977]
+offset_left = 450.0
+offset_top = 552.0
+offset_right = 606.0
+offset_bottom = 604.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/AchievementsBox" unique_id=1155535381]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "도전과제"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SyncBox" type="PanelContainer" parent="CanvasGroup" unique_id=740513550]
+offset_left = 618.0
+offset_top = 552.0
+offset_right = 770.0
+offset_bottom = 604.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/SyncBox" unique_id=354535143]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 22
+text = "싱크"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReturnBox" type="PanelContainer" parent="CanvasGroup" unique_id=1714046480]
+offset_left = 782.0
+offset_top = 552.0
+offset_right = 970.0
+offset_bottom = 604.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_box")
+
+[node name="Text" type="Label" parent="CanvasGroup/ReturnBox" unique_id=2077734050]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_menu_font")
+theme_override_font_sizes/font_size = 19
+text = "시작화면"
+horizontal_alignment = 1
+vertical_alignment = 1

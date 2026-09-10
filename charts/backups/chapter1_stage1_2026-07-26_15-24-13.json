@@ -1,0 +1,952 @@
+{
+	"audioPath": "res://audio/stage1.wav",
+	"bpm": 156.0,
+	"formatVersion": 1.0,
+	"laneCount": 4,
+	"notes": [
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 3.63636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 3.86363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 4.09090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 4.31818181818182,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 4.54545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 5.0,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 5.22727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "opponent",
+			"time": 5.45454545454545,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 5.90909090909091,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 6.13636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 6.36363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 4.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 6.81818181818182,
+			"type": "rapid"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 7.27272727272727,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 7.5,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 7.72727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 7.95454545454545,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 8.18181818181818,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 8.63636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 8.86363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "player",
+			"time": 9.09090909090909,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 9.54545454545454,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 9.77272727272727,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 10.0,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 4.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 10.4545454545455,
+			"type": "rapid"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 10.9090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 11.1363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 11.3636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 11.5909090909091,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 11.8181818181818,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 12.2727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 12.5,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "opponent",
+			"time": 12.7272727272727,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.568181818181818,
+			"lane": 1.0,
+			"mash": 5.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 13.1818181818182,
+			"type": "rapid"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 13.8636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 14.0909090909091,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 14.3181818181818,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 14.5454545454545,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 14.7727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 15.0,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 15.2272727272727,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 15.4545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 15.9090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 16.1363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "player",
+			"time": 16.3636363636364,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.568181818181818,
+			"lane": 1.0,
+			"mash": 5.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 16.8181818181818,
+			"type": "rapid"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 17.5,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 17.7272727272727,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 17.9545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 18.1818181818182,
+			"type": "slur"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 18.4090909090909,
+			"type": "slur"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 18.6363636363636,
+			"type": "slur"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 18.8636363636364,
+			"type": "slur"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "opponent",
+			"time": 19.3181818181818,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "opponent",
+			"time": 19.5454545454545,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 19.7727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.681818181818182,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 20.0,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 20.9090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "opponent",
+			"time": 21.1363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 1.0,
+			"mash": 4.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 21.3636363636364,
+			"type": "rapid"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 21.8181818181818,
+			"type": "slur"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 22.0454545454545,
+			"type": "slur"
+		},
+		{
+			"connectNext": true,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 22.2727272727273,
+			"type": "slur"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 22.5,
+			"type": "slur"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "player",
+			"time": 22.9545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "player",
+			"time": 23.1818181818182,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 23.4090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.681818181818182,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 23.6363636363636,
+			"type": "hold"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 24.5454545454545,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "player",
+			"time": 24.7727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.454545454545455,
+			"lane": 1.0,
+			"mash": 4.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 25.0,
+			"type": "rapid"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 25.4545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 25.6818181818182,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "opponent",
+			"time": 25.9090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "opponent",
+			"time": 26.1363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 26.3636363636364,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 26.5909090909091,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 2.0,
+			"side": "player",
+			"time": 26.8181818181818,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 3.0,
+			"side": "player",
+			"time": 27.0454545454545,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "opponent",
+			"time": 27.2727272727273,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "opponent",
+			"time": 27.5,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "opponent",
+			"time": 27.7272727272727,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "opponent",
+			"time": 27.9545454545455,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 3.0,
+			"mash": 0.0,
+			"pitch": 5.0,
+			"side": "player",
+			"time": 28.1818181818182,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 2.0,
+			"mash": 0.0,
+			"pitch": 4.0,
+			"side": "player",
+			"time": 28.4090909090909,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 1.0,
+			"mash": 0.0,
+			"pitch": 1.0,
+			"side": "player",
+			"time": 28.6363636363636,
+			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 28.8636363636364,
+			"type": "tap"
+		}
+	],
+	"offset": 0.0,
+	"phases": [
+		{
+			"end": 3.63636363636364,
+			"id": "intro",
+			"start": 0.0,
+			"type": "break"
+		},
+		{
+			"end": 10.9090909090909,
+			"id": "call_response",
+			"start": 3.63636363636364,
+			"type": "normal"
+		},
+		{
+			"end": 18.1818181818182,
+			"id": "highlight_1",
+			"start": 10.9090909090909,
+			"type": "highlight"
+		},
+		{
+			"end": 25.4545454545455,
+			"id": "slur",
+			"start": 18.1818181818182,
+			"type": "normal"
+		},
+		{
+			"end": 29.0909090909091,
+			"id": "highlight_2",
+			"start": 25.4545454545455,
+			"type": "highlight"
+		}
+	],
+	"sections": [
+		{
+			"endTime": 3.63636363636364,
+			"id": "intro",
+			"startTime": 0.0,
+			"type": "ensemble"
+		},
+		{
+			"endTime": 7.27272727272727,
+			"id": "opponent_call",
+			"startTime": 3.63636363636364,
+			"type": "opponent"
+		},
+		{
+			"endTime": 10.9090909090909,
+			"id": "player_response",
+			"startTime": 7.27272727272727,
+			"type": "player"
+		},
+		{
+			"endTime": 14.5454545454545,
+			"id": "opponent_mix",
+			"startTime": 10.9090909090909,
+			"type": "opponent"
+		},
+		{
+			"endTime": 18.1818181818182,
+			"id": "player_mix",
+			"startTime": 14.5454545454545,
+			"type": "player"
+		},
+		{
+			"endTime": 21.8181818181818,
+			"id": "opponent_slur",
+			"startTime": 18.1818181818182,
+			"type": "opponent"
+		},
+		{
+			"endTime": 25.4545454545455,
+			"id": "player_slur",
+			"startTime": 21.8181818181818,
+			"type": "player"
+		},
+		{
+			"endTime": 29.0909090909091,
+			"id": "trading",
+			"startTime": 25.4545454545455,
+			"type": "ensemble"
+		}
+	],
+	"songId": "chapter1_stage1"
+}

@@ -1,0 +1,102 @@
+{
+	"audioPath": "res://audio/stage1.wav",
+	"bpm": 156.0,
+	"formatVersion": 1.0,
+	"laneCount": 4,
+	"notes": [
+		{
+			"connectNext": false,
+			"duration": 0.0,
+			"lane": 0.0,
+			"mash": 0.0,
+			"pitch": 0.0,
+			"side": "player",
+			"time": 28.8636363636364,
+			"type": "tap"
+		}
+	],
+	"offset": 0.0,
+	"phases": [
+		{
+			"end": 3.63636363636364,
+			"id": "intro",
+			"start": 0.0,
+			"type": "break"
+		},
+		{
+			"end": 10.9090909090909,
+			"id": "call_response",
+			"start": 3.63636363636364,
+			"type": "normal"
+		},
+		{
+			"end": 18.1818181818182,
+			"id": "highlight_1",
+			"start": 10.9090909090909,
+			"type": "highlight"
+		},
+		{
+			"end": 25.4545454545455,
+			"id": "slur",
+			"start": 18.1818181818182,
+			"type": "normal"
+		},
+		{
+			"end": 29.0909090909091,
+			"id": "highlight_2",
+			"start": 25.4545454545455,
+			"type": "highlight"
+		}
+	],
+	"sections": [
+		{
+			"endTime": 3.63636363636364,
+			"id": "intro",
+			"startTime": 0.0,
+			"type": "ensemble"
+		},
+		{
+			"endTime": 7.27272727272727,
+			"id": "opponent_call",
+			"startTime": 3.63636363636364,
+			"type": "opponent"
+		},
+		{
+			"endTime": 10.9090909090909,
+			"id": "player_response",
+			"startTime": 7.27272727272727,
+			"type": "player"
+		},
+		{
+			"endTime": 14.5454545454545,
+			"id": "opponent_mix",
+			"startTime": 10.9090909090909,
+			"type": "opponent"
+		},
+		{
+			"endTime": 18.1818181818182,
+			"id": "player_mix",
+			"startTime": 14.5454545454545,
+			"type": "player"
+		},
+		{
+			"endTime": 21.8181818181818,
+			"id": "opponent_slur",
+			"startTime": 18.1818181818182,
+			"type": "opponent"
+		},
+		{
+			"endTime": 25.4545454545455,
+			"id": "player_slur",
+			"startTime": 21.8181818181818,
+			"type": "player"
+		},
+		{
+			"endTime": 29.0909090909091,
+			"id": "trading",
+			"startTime": 25.4545454545455,
+			"type": "ensemble"
+		}
+	],
+	"songId": "chapter1_stage1"
+}

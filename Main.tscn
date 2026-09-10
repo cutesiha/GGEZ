@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://b2ixky5e3ii1m"]
+
+[ext_resource type="Script" uid="uid://wk31ys1siu8x" path="res://Main.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://ck5wjtqej5s0" path="res://images/back.png" id="2_background"]
+[ext_resource type="Texture2D" uid="uid://dpo5na4crfkb4" path="res://images/ground.png" id="3_ground"]
+[ext_resource type="Texture2D" uid="uid://180x03j1sen" path="res://images/slime_basic.png" id="4_enemy"]
+[ext_resource type="Texture2D" uid="uid://ctao2btggpa45" path="res://images/p1.png" id="5_p1"]
+[ext_resource type="Texture2D" uid="uid://bbgxg1c2s4uwj" path="res://images/p2.png" id="6_p2"]
+[ext_resource type="Texture2D" uid="uid://bobbmc3tnxjrm" path="res://images/black.png" id="7_black"]
+
+[node name="Main" type="Node2D" unique_id=1708430569]
+script = ExtResource("1_main")
+
+[node name="Visuals" type="CanvasLayer" parent="." unique_id=328993198]
+layer = -10
+
+[node name="Background" type="TextureRect" parent="Visuals" unique_id=1024151856]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+
+[node name="Ground" type="TextureRect" parent="Visuals" unique_id=1087296040]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("3_ground")
+expand_mode = 1
+
+[node name="Enemy" type="TextureRect" parent="Visuals" unique_id=1141243639]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("4_enemy")
+expand_mode = 1
+
+[node name="P1" type="TextureRect" parent="Visuals" unique_id=578428611]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("5_p1")
+expand_mode = 1
+
+[node name="P2" type="TextureRect" parent="Visuals" unique_id=137152068]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("6_p2")
+expand_mode = 1
+
+[node name="RhythmContrastOverlay" type="TextureRect" parent="Visuals" unique_id=1766980954]
+self_modulate = Color(1, 1, 1, 0.12)
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("7_black")
+expand_mode = 1

@@ -1,0 +1,362 @@
+[gd_scene format=3 uid="uid://nqc6uit64ol"]
+
+[ext_resource type="Script" uid="uid://hfnnlcykm42v" path="res://StartMenu.gd" id="1_start_menu"]
+[ext_resource type="Texture2D" uid="uid://d11vjjwbjk3ld" path="res://assets/start_menu_background.png" id="2_background"]
+[ext_resource type="FontFile" uid="uid://d0byd5ewwok5e" path="res://fonts/Mona12TextJP.ttf" id="3_menu_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_settings_panel"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_settings_title"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_option"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[node name="StartMenu" type="Control" unique_id=21118548]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_start_menu")
+
+[node name="Background" type="TextureRect" parent="." unique_id=198521627]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Menu" type="VBoxContainer" parent="." unique_id=1687240887]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_top = -256.0
+offset_right = 217.0
+offset_bottom = -62.0
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="StartRow" type="HBoxContainer" parent="Menu" unique_id=1399551747]
+custom_minimum_size = Vector2(300, 44)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Label" parent="Menu/StartRow" unique_id=210487988]
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="Menu/StartRow" unique_id=1510841717]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = "start"
+vertical_alignment = 1
+
+[node name="TutorialRow" type="HBoxContainer" parent="Menu" unique_id=325608342]
+custom_minimum_size = Vector2(300, 44)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Label" parent="Menu/TutorialRow" unique_id=1636591619]
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="Menu/TutorialRow" unique_id=1660908163]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = "tutorial"
+vertical_alignment = 1
+
+[node name="SettingRow" type="HBoxContainer" parent="Menu" unique_id=1583957006]
+custom_minimum_size = Vector2(300, 44)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Label" parent="Menu/SettingRow" unique_id=888586134]
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="Menu/SettingRow" unique_id=329865049]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = "setting"
+vertical_alignment = 1
+
+[node name="ExitRow" type="HBoxContainer" parent="Menu" unique_id=1721049190]
+custom_minimum_size = Vector2(300, 44)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Label" parent="Menu/ExitRow" unique_id=279296591]
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="Menu/ExitRow" unique_id=350695425]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 36
+text = "exit..."
+vertical_alignment = 1
+
+[node name="DimOverlay" type="ColorRect" parent="." unique_id=1907325898]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="SettingsPanel" type="Panel" parent="." unique_id=1145332806]
+visible = false
+layout_mode = 0
+offset_left = 330.0
+offset_top = 160.0
+offset_right = 950.0
+offset_bottom = 560.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_panel")
+
+[node name="TitleBox" type="Panel" parent="SettingsPanel" unique_id=1177405368]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 155.0
+offset_bottom = 66.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_settings_title")
+
+[node name="Text" type="Label" parent="SettingsPanel/TitleBox" unique_id=1821610617]
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 25
+text = "설정"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Help" type="Label" parent="SettingsPanel" unique_id=224025612]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 18.0
+offset_right = 600.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.72, 0.72, 0.72, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 15
+text = "↑↓ 선택   ←→ 조절   ESC 돌아가기"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cursor" type="Label" parent="SettingsPanel" unique_id=1547761907]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 105.0
+offset_right = 48.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 23
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterName" type="Label" parent="SettingsPanel" unique_id=1860619766]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 105.0
+offset_right = 222.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "마스터 볼륨"
+vertical_alignment = 1
+
+[node name="MasterValue" type="Label" parent="SettingsPanel" unique_id=611522613]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 105.0
+offset_right = 600.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="MusicName" type="Label" parent="SettingsPanel" unique_id=1426436138]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 171.0
+offset_right = 222.0
+offset_bottom = 207.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "배경음악 볼륨"
+vertical_alignment = 1
+
+[node name="MusicValue" type="Label" parent="SettingsPanel" unique_id=863132808]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 171.0
+offset_right = 600.0
+offset_bottom = 207.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="SfxName" type="Label" parent="SettingsPanel" unique_id=2129625040]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 237.0
+offset_right = 222.0
+offset_bottom = 273.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 21
+text = "효과음 볼륨"
+vertical_alignment = 1
+
+[node name="SfxValue" type="Label" parent="SettingsPanel" unique_id=141857559]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 237.0
+offset_right = 600.0
+offset_bottom = 273.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 17
+text = "--------------------|--------  70/100"
+vertical_alignment = 1
+
+[node name="FullscreenName" type="Label" parent="SettingsPanel" unique_id=566700410]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 303.0
+offset_right = 245.0
+offset_bottom = 347.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 22
+text = "전체화면"
+vertical_alignment = 1
+
+[node name="FullscreenO" type="Panel" parent="SettingsPanel" unique_id=1452901833]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 303.0
+offset_right = 358.0
+offset_bottom = 347.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_option")
+
+[node name="Text" type="Label" parent="SettingsPanel/FullscreenO" unique_id=224612609]
+layout_mode = 0
+offset_right = 58.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "O"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slash" type="Label" parent="SettingsPanel" unique_id=451610388]
+layout_mode = 0
+offset_left = 362.0
+offset_top = 303.0
+offset_right = 382.0
+offset_bottom = 347.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "/"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FullscreenX" type="Panel" parent="SettingsPanel" unique_id=399535021]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 303.0
+offset_right = 444.0
+offset_bottom = 347.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_option")
+
+[node name="Text" type="Label" parent="SettingsPanel/FullscreenX" unique_id=1517884797]
+layout_mode = 0
+offset_right = 58.0
+offset_bottom = 44.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_menu_font")
+theme_override_font_sizes/font_size = 24
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1

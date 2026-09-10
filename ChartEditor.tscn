@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdyr6ovykn8yv"]
+
+[ext_resource type="Script" path="res://ChartEditor.gd" id="1_chart_editor"]
+
+[node name="ChartEditor" type="Node2D" unique_id=1125655175]
+script = ExtResource("1_chart_editor")
