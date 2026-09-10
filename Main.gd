@@ -25,9 +25,7 @@ var SPB := 60.0 / BPM                 # seconds per beat
 const SWING := 2.0 / 3.0              # 스윙 엇박 위치 (현재 채보는 미사용)
 
 const LANE_KEYS_P1 := ["p1_left", "p1_down", "p1_up", "p1_right"]
-const LANE_KEYCODES_P1 := [KEY_A, KEY_S, KEY_D, KEY_F]
 const LANE_KEYS_P2 := ["p2_left", "p2_down", "p2_up", "p2_right"]
-const LANE_KEYCODES_P2 := [KEY_K, KEY_L, KEY_SEMICOLON, KEY_APOSTROPHE]
 const LANE_COLORS := [Color("e0863c"), Color("48a6a2"), Color("c65b86"), Color("d9b24a")]
 
 # The player chooses one side before each run; the other side is played by AI.
@@ -59,10 +57,8 @@ const W_MISS := 0.170
 const HOLD_RELEASE_MIN_RATIO := 0.70
 
 # 공용 게이지 / HP 변화량
-const GAUGE_PERFECT := 0.10           # Perfect마다 공용 게이지 증가 (P1/P2 합산)
+const GAUGE_COMBO_REQUIRED := 10      # 성공 판정 10 콤보로 하이라이트 게이지 100
 const HP_MISS_LOSS := 0.15            # Miss마다 해당 플레이어 HP만 감소
-const GAUGE_HOLD_BONUS := 0.06
-const GAUGE_RAPID_BONUS := 0.08
 const LONGNOTE_START_VOLUME_DB := 0.0
 const LONGNOTE_END_VOLUME_DB := -12.0
 const FLICK_VOLUME_DB := -8.0
@@ -94,10 +90,15 @@ var lane_released_p2 := [false, false, false, false]
 var p1_head_input_buffer: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var p2_head_input_buffer: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var receptor_flash := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  # 0-3=P1, 4-7=P2
+const SELECT_PLAY_STYLE := 0
+const SELECT_SINGLE_PLAYER := 1
+
 var player_selection_open := true
+var player_selection_screen := SELECT_PLAY_STYLE
 var selected_human_side := 1
 var human_side := 1
 var ai_side := 0
+var multiplayer := false
 var ai_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var ai_next_highlight_tap: float = 0.0
 
@@ -139,6 +140,9 @@ var slime_shake_tween: Tween
 var slime_flash_tween: Tween
 var slime_fx_rng := RandomNumberGenerator.new()
 var enemy_base_position := Vector2.ZERO
+var pause_open := false
+var pause_selection := 0
+var settings_overlay: Node2D
 
 @onready var enemy_visual: TextureRect = $Visuals/Enemy
 
@@ -272,6 +276,8 @@ func _ready() -> void:
 	_build_status_bars()
 	_set_status_bars_visible(false)
 	_sync_status_bars()
+	settings_overlay = preload("res://SettingsOverlay.gd").new()
+	add_child(settings_overlay)
 
 
 func _build_status_bars() -> void:
@@ -366,13 +372,27 @@ func _build_note_outline_textures() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if settings_overlay and settings_overlay.visible:
+		if settings_overlay.handle_input(event):
+			get_viewport().set_input_as_handled()
+		return
+	if pause_open:
+		_handle_pause_input(event)
+		return
 	if not player_selection_open:
+		if event is InputEventKey:
+			var pause_key := event as InputEventKey
+			if pause_key.pressed and not pause_key.echo and pause_key.keycode == KEY_ESCAPE:
+				_open_pause()
+				get_viewport().set_input_as_handled()
 		return
 	if event is InputEventKey:
 		var key_event: InputEventKey = event
 		if not key_event.pressed or key_event.echo:
 			return
-		if key_event.keycode == KEY_LEFT or key_event.physical_keycode == KEY_A:
+		if key_event.keycode == KEY_ESCAPE:
+			get_tree().change_scene_to_file("res://mainmenu.tscn")
+		elif key_event.keycode == KEY_LEFT or key_event.physical_keycode == KEY_A:
 			selected_human_side = 0
 		elif key_event.keycode == KEY_RIGHT or key_event.physical_keycode == KEY_D:
 			selected_human_side = 1
@@ -394,8 +414,23 @@ func _input(event: InputEvent) -> void:
 
 
 func _confirm_player_selection() -> void:
-	human_side = selected_human_side
-	ai_side = 1 - human_side
+	if player_selection_screen == SELECT_PLAY_STYLE:
+		if selected_human_side == 1: # multiplayer card
+			GameSettings.set_play_mode(true)
+			_start_battle_from_selection()
+		else:
+			player_selection_screen = SELECT_SINGLE_PLAYER
+			selected_human_side = 0
+			queue_redraw()
+		return
+	GameSettings.set_play_mode(false, selected_human_side)
+	_start_battle_from_selection()
+
+
+func _start_battle_from_selection() -> void:
+	multiplayer = GameSettings.multiplayer
+	human_side = GameSettings.human_side
+	ai_side = -1 if multiplayer else 1 - human_side
 	player_selection_open = false
 	_set_status_bars_visible(true)
 	_reset_ai_state()
@@ -403,6 +438,46 @@ func _confirm_player_selection() -> void:
 
 func _player_selection_rect(side: int) -> Rect2:
 	return Rect2(245, 255, 330, 210) if side == 0 else Rect2(705, 255, 330, 210)
+
+
+func _open_pause() -> void:
+	if finished:
+		return
+	pause_open = true
+	pause_selection = 0
+	if backing:
+		backing.stream_paused = true
+	queue_redraw()
+
+
+func _close_pause() -> void:
+	pause_open = false
+	if backing:
+		backing.stream_paused = false
+	queue_redraw()
+
+
+func _handle_pause_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+	var key := event as InputEventKey
+	if not key.pressed or key.echo:
+		return
+	if key.keycode == KEY_ESCAPE:
+		_close_pause()
+		return
+	if key.keycode == KEY_UP or key.keycode == KEY_DOWN:
+		pause_selection = posmod(pause_selection + (1 if key.keycode == KEY_DOWN else -1), 3)
+		queue_redraw()
+		return
+	if key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER or key.keycode == KEY_SPACE:
+		match pause_selection:
+			0:
+				settings_overlay.open_settings()
+			1:
+				get_tree().change_scene_to_file("res://mainmenu.tscn")
+			2:
+				get_tree().quit()
 
 
 func _build_song_phases() -> void:
@@ -430,20 +505,7 @@ func _get_phase(t: float) -> Dictionary:
 
 
 func _setup_input() -> void:
-	for i in range(4):
-		var a1: String = LANE_KEYS_P1[i]
-		if not InputMap.has_action(a1):
-			InputMap.add_action(a1)
-		InputMap.action_erase_events(a1)
-		var e1 := InputEventKey.new(); e1.physical_keycode = LANE_KEYCODES_P1[i]
-		InputMap.action_add_event(a1, e1)
-
-		var a2: String = LANE_KEYS_P2[i]
-		if not InputMap.has_action(a2):
-			InputMap.add_action(a2)
-		InputMap.action_erase_events(a2)
-		var e2 := InputEventKey.new(); e2.physical_keycode = LANE_KEYCODES_P2[i]
-		InputMap.action_add_event(a2, e2)
+	GameSettings.ensure_lane_actions()
 	if not InputMap.has_action("restart"):
 		InputMap.add_action("restart")
 		var er := InputEventKey.new(); er.keycode = KEY_ENTER
@@ -608,6 +670,9 @@ func _build_chart() -> void:
 
 # ============================================================
 func _process(delta: float) -> void:
+	if pause_open or (settings_overlay and settings_overlay.visible):
+		queue_redraw()
+		return
 	if finished:
 		if Input.is_action_just_pressed("restart"):
 			get_tree().reload_current_scene()
@@ -634,16 +699,16 @@ func _process(delta: float) -> void:
 	# 입력 (이번 프레임 눌린 레인) — P1/P2 각자
 	var pressed_p1 := [false, false, false, false]
 	var pressed_p2 := [false, false, false, false]
-	if human_side == 0:
+	if multiplayer or human_side == 0:
 		_read_p1_input(delta, pressed_p1)
-	else:
+	if multiplayer or human_side == 1:
 		_read_p2_input(delta, pressed_p2)
 
 	# 곡 구간(phase) 감지 -> 하이라이트면 연타 카운터 모드, 아니면 기존 노트 판정
 	var phase: Dictionary = _get_phase(t)
 	var phase_type: String = String(phase.get("type", "normal"))
 	current_phase_type = phase_type
-	if phase_type != "highlight" and _is_human_full_chord_held(t):
+	if not multiplayer and phase_type != "highlight" and _is_human_full_chord_held(t):
 		for lane in range(4):
 			if human_side == 0:
 				pressed_p1[lane] = true
@@ -653,7 +718,7 @@ func _process(delta: float) -> void:
 				p2_head_input_buffer[lane] = 0.0
 	if ai_side == 0:
 		_update_ai_input(t, 0, pressed_p1, lane_released_p1, phase_type == "highlight")
-	else:
+	elif ai_side == 1:
 		_update_ai_input(t, 1, pressed_p2, lane_released_p2, phase_type == "highlight")
 
 	if phase_type == "highlight":
@@ -893,7 +958,17 @@ func _resolve_highlight() -> void:
 		monster_hp -= dealt
 		highlight_message = "DEAL!  %d타 합산 -> 몬스터 HP -%d%%" % [total_taps, int(round(dealt * 100.0))]
 	else:
-		highlight_message = "기절... 게이지 부족으로 이번 하이라이트는 딜 없음"
+		# A failed highlight is an enemy attack.  Single-player only damages the
+		# selected human; co-op damages both players.
+		if multiplayer:
+			p1_hp -= HP_MISS_LOSS
+			p2_hp -= HP_MISS_LOSS
+		else:
+			if human_side == 0:
+				p1_hp -= HP_MISS_LOSS
+			else:
+				p2_hp -= HP_MISS_LOSS
+		highlight_message = "게이지 부족! 하이라이트 공격을 받았습니다"
 	highlight_message_timer = 1.6
 	shared_gauge = 0.0
 
@@ -916,7 +991,7 @@ func _update_side(t: float, side: int, pressed: Array, released: Array, lane_hel
 				_spawn_hit_note_burst(rec_base + nt.lane)
 			if t > nt.time + nt.length:    # 윈도우 종료 -> 채점
 				if nt.mash_count >= nt.mash:
-					_hit("PERFECT", rec_base + nt.lane, side); shared_gauge += GAUGE_RAPID_BONUS
+					_hit("PERFECT", rec_base + nt.lane, side)
 				elif nt.mash_count >= int(nt.mash * 0.5):
 					_hit("GOOD", rec_base + nt.lane, side)
 				else:
@@ -964,7 +1039,6 @@ func _update_side(t: float, side: int, pressed: Array, released: Array, lane_hel
 			var earliest_release_time: float = nt.time + nt.length * HOLD_RELEASE_MIN_RATIO
 			if released[nt.lane]:
 				if t >= earliest_release_time and t <= tail_time + W_MISS:
-					shared_gauge += GAUGE_HOLD_BONUS
 					_popup("HOLD!", rec_base + nt.lane, Color("9ee6c8"))
 					nt.state = "done"
 				else:
@@ -984,10 +1058,14 @@ func _judge_head(dt: float, rec: int, side: int, note_type: String = "tap") -> v
 func _hit(kind: String, rec: int, side: int, note_type: String = "tap") -> void:
 	receptor_flash[rec] = 1.0
 	_spawn_hit_note_burst(rec)
-	combo += 1
+	# In single-player the AI's judgments are not part of the displayed combo.
+	# In co-op either player's successful judgment extends the shared combo.
+	if multiplayer or side == human_side:
+		combo += 1
+		shared_gauge = min(1.0, float(combo) / float(GAUGE_COMBO_REQUIRED))
 	var sound_kind := kind.to_lower()
 	if kind == "PERFECT":
-		score += 350; shared_gauge += GAUGE_PERFECT
+		score += 350
 		_play_hit_sound(sound_kind, side)
 		if note_type == "slur":
 			_play_hit_sound("flick", side)
@@ -1009,7 +1087,11 @@ func _spawn_hit_note_burst(rec: int) -> void:
 
 
 func _miss(rec: int, side: int) -> void:
-	combo = 0
+	# A partner's miss breaks the shared co-op combo.  AI misses do not affect a
+	# single-player run's combo.
+	if multiplayer or side == human_side:
+		combo = 0
+		shared_gauge = 0.0
 	if side == 0:
 		p1_hp -= HP_MISS_LOSS
 	else:
@@ -1151,10 +1233,15 @@ func _draw() -> void:
 	# HUD 텍스트
 	draw_string(font, Vector2(24, 104), "SCORE  %d" % score, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color.WHITE)
 	if combo > 0:
-		draw_string(font, Vector2(590, 340), "%d COMBO" % combo, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, Color("ffd76b"))
+		# Between the boss HP bar and the enemy sprite.
+		draw_string(font, Vector2(590, 145), "%d COMBO" % combo, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, Color("ffd76b"))
 	draw_string(font, Vector2(40, 500), "P1", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color.WHITE)
 	draw_string(font, Vector2(1200, 500), "P2", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color.WHITE)
-	var mode_text: String = "MODE: P1 PLAYER (A S D F) / P2 AI" if human_side == 0 else "MODE: P1 AI / P2 PLAYER (K L ; ')"
+	var mode_text: String
+	if multiplayer:
+		mode_text = "MODE: 2 PLAYERS"
+	else:
+		mode_text = "MODE: P1 PLAYER / P2 AI" if human_side == 0 else "MODE: P1 AI / P2 PLAYER"
 	draw_string(font, Vector2(24, 128), mode_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color.WHITE)
 	draw_string(font, Vector2(24, 148), "STAGE 1      [ ] 싱크조정 (offset %.0fms)" % (AUDIO_OFFSET * 1000),
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color.WHITE)
@@ -1168,7 +1255,11 @@ func _draw() -> void:
 		var c := int(ceil(-song_time + 0.001))
 		var txt := str(c) if c > 0 else "GO"
 		draw_string(font, Vector2(590, 300), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 60, Color("ffd76b"))
-		var countin_text: String = "P1: A S D F   /   P2 AI" if human_side == 0 else "P1 AI   /   P2: K L ; '"
+		var countin_text: String
+		if multiplayer:
+			countin_text = "P1: %s   /   P2: %s" % [_lane_keys_text(0), _lane_keys_text(1)]
+		else:
+			countin_text = "P1: %s   /   P2 AI" % _lane_keys_text(0) if human_side == 0 else "P1 AI   /   P2: %s" % _lane_keys_text(1)
 		draw_string(font, Vector2(370, 400), countin_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("b7acc9"))
 
 	# 결과
@@ -1184,12 +1275,15 @@ func _draw() -> void:
 
 	if player_selection_open:
 		_draw_player_selection()
+	if pause_open:
+		_draw_pause_overlay()
 
 
 func _draw_player_selection() -> void:
 	draw_rect(Rect2(0, 0, 1280, 720), Color(0.03, 0.02, 0.06, 0.84))
-	draw_string(font, Vector2(390, 160), "CHOOSE YOUR PLAYER", HORIZONTAL_ALIGNMENT_LEFT, -1, 42, Color("f2e9d0"))
-	draw_string(font, Vector2(398, 205), "The other player will be controlled by AI", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
+	var choosing_style := player_selection_screen == SELECT_PLAY_STYLE
+	draw_string(font, Vector2(390, 160), "CHOOSE PLAY STYLE" if choosing_style else "CHOOSE YOUR PLAYER", HORIZONTAL_ALIGNMENT_LEFT, -1, 42, Color("f2e9d0"))
+	draw_string(font, Vector2(350, 205), "Single: select a side / Multi: both players play" if choosing_style else "Choose the side you want to play", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
 	for side in range(2):
 		var card: Rect2 = _player_selection_rect(side)
 		var selected: bool = selected_human_side == side
@@ -1197,12 +1291,28 @@ func _draw_player_selection() -> void:
 		var fill: Color = Color(accent, 0.32) if selected else Color("171322")
 		draw_rect(card, fill)
 		draw_rect(card, accent if selected else Color("4a4459"), false, 3.0)
-		var player_text: String = "P1" if side == 0 else "P2"
-		var keys_text: String = "A  S  D  F" if side == 0 else "K  L  ;  '"
+		var player_text: String = ("SINGLE" if side == 0 else "MULTI") if choosing_style else ("P1" if side == 0 else "P2")
+		var keys_text: String = ("Choose P1 or P2" if side == 0 else "P1 + P2") if choosing_style else _lane_keys_text(side)
 		draw_string(font, Vector2(card.position.x + 126, card.position.y + 65), player_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 34, accent.lightened(0.25))
 		draw_string(font, Vector2(card.position.x + 86, card.position.y + 110), keys_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("f2e9d0"))
-		draw_string(font, Vector2(card.position.x + 79, card.position.y + 160), "PLAYER" if selected else "AI", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, accent if selected else Color("8a8294"))
+		draw_string(font, Vector2(card.position.x + 79, card.position.y + 160), "SELECTED" if selected else "", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, accent if selected else Color("8a8294"))
 	draw_string(font, Vector2(420, 625), "Click a card, or A / D then Enter", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
+
+
+func _draw_pause_overlay() -> void:
+	draw_rect(Rect2(0, 0, 1280, 720), Color(0.0, 0.0, 0.0, 0.82))
+	var panel := Rect2(420.0, 180.0, 440.0, 360.0)
+	draw_rect(panel, Color.BLACK)
+	draw_rect(panel, Color.WHITE, false, 4.0)
+	draw_string(font, Vector2(545.0, 245.0), "일시정지", HORIZONTAL_ALIGNMENT_LEFT, -1, 34, Color.WHITE)
+	var labels := ["설정", "메인화면", "나가기"]
+	for index in range(labels.size()):
+		var row := Rect2(485.0, 285.0 + index * 68.0, 310.0, 48.0)
+		var selected := index == pause_selection
+		draw_rect(row, Color.WHITE if selected else Color.BLACK)
+		draw_rect(row, Color.WHITE, false, 2.0)
+		draw_string(font, row.position + Vector2(112.0, 32.0), labels[index], HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color.BLACK if selected else Color.WHITE)
+	draw_string(font, Vector2(504.0, 505.0), "↑↓ 선택   Enter 확인   Esc 계속하기", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.7, 0.7, 0.7))
 
 
 func _draw_highlight_overlay() -> void:
@@ -1214,8 +1324,22 @@ func _draw_highlight_overlay() -> void:
 	draw_string(font, Vector2(cx - 150, 250), ready_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, ready_col)
 	draw_string(font, Vector2(cx - 190, 300), "P1 %d  +  P2 %d  =  %d타" % [highlight_p1_taps, highlight_p2_taps, highlight_p1_taps + highlight_p2_taps],
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color("f2e9d0"))
-	var highlight_input_text: String = "P1: A S D F  MASH!" if human_side == 0 else "P2: K L ; '  MASH!"
+	var highlight_input_text: String
+	if multiplayer:
+		highlight_input_text = "P1: %s / P2: %s  MASH!" % [_lane_keys_text(0), _lane_keys_text(1)]
+	else:
+		highlight_input_text = "P1: %s  MASH!" % _lane_keys_text(0) if human_side == 0 else "P2: %s  MASH!" % _lane_keys_text(1)
 	draw_string(font, Vector2(cx - 130, 336), highlight_input_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("b7acc9"))
+
+
+func _lane_keys_text(side: int) -> String:
+	var start_index := 0 if side == 0 else 4
+	return "%s  %s  %s  %s" % [
+		GameSettings.lane_key_text(start_index),
+		GameSettings.lane_key_text(start_index + 1),
+		GameSettings.lane_key_text(start_index + 2),
+		GameSettings.lane_key_text(start_index + 3),
+	]
 
 
 func _draw_monster_box(r: Rect2, hp: float) -> void:

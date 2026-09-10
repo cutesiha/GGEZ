@@ -1132,10 +1132,12 @@ func _confirm_mode_selection() -> void:
 	elif mode_select_screen == MODE_SCREEN_PLAY_STYLE and mode_selected_index == MODE_CHOICE_MULTI:
 		tutorial_multiplayer = true
 		tutorial_human_side = -1
+		GameSettings.set_play_mode(true)
 		_finish_mode_select()
 	else:
 		tutorial_multiplayer = false
 		tutorial_human_side = mode_selected_index
+		GameSettings.set_play_mode(false, tutorial_human_side)
 		_finish_mode_select()
 
 
@@ -1764,10 +1766,10 @@ func _handle_practice_key(key_event: InputEventKey) -> bool:
 
 
 func _side_lane_for_key(key_event: InputEventKey) -> Array:
-	var lane := _lane_for_key(key_event, LANE_KEYCODES_P1)
+	var lane := _lane_for_key(key_event, _configured_lane_keycodes(0))
 	if lane != -1:
 		return [0, lane]
-	lane = _lane_for_key(key_event, LANE_KEYCODES_P2)
+	lane = _lane_for_key(key_event, _configured_lane_keycodes(1))
 	if lane != -1:
 		return [1, lane]
 	lane = _lane_for_key(key_event, LANE_KEYCODES_ARROWS)
@@ -2133,12 +2135,12 @@ func _handle_note_key(key_event: InputEventKey) -> bool:
 	if not _note_arrows_visible():
 		return false
 
-	var lane := _lane_for_key(key_event, LANE_KEYCODES_P1)
+	var lane := _lane_for_key(key_event, _configured_lane_keycodes(0))
 	if lane != -1:
 		_trigger_note_arrow(0, lane)
 		return true
 
-	lane = _lane_for_key(key_event, LANE_KEYCODES_P2)
+	lane = _lane_for_key(key_event, _configured_lane_keycodes(1))
 	if lane != -1:
 		_trigger_note_arrow(1, lane)
 		return true
@@ -2157,6 +2159,14 @@ func _lane_for_key(key_event: InputEventKey, keycodes: Array) -> int:
 		if key_event.keycode == keycodes[i] or key_event.physical_keycode == keycodes[i]:
 			return i
 	return -1
+
+
+func _configured_lane_keycodes(side: int) -> Array:
+	var keys := []
+	var start_index := 0 if side == 0 else 4
+	for lane in range(4):
+		keys.append(GameSettings.get_lane_key(start_index + lane))
+	return keys
 
 
 func _note_arrows_visible() -> bool:

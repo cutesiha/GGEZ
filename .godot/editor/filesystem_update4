@@ -1,0 +1,5 @@
+res://GameSettings.gd
+res://Main.gd
+res://MainMenu.gd
+res://Tutorial.gd
+res://mainmenu.tscn

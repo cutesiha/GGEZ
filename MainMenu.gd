@@ -154,6 +154,7 @@ var stage_scroll_tween: Tween
 var stage_arrow_tween: Tween
 var player_move_tween: Tween
 var stage_flash_overlay: StageFlashOverlay
+var settings_overlay: Node2D
 
 
 func _ready() -> void:
@@ -171,6 +172,8 @@ func _ready() -> void:
 	stage_flash_overlay = StageFlashOverlay.new()
 	stage_flash_overlay.z_index = 20
 	add_child(stage_flash_overlay)
+	settings_overlay = preload("res://SettingsOverlay.gd").new()
+	add_child(settings_overlay)
 	_update_settings_ui()
 	_refresh_achievement_list()
 	_update_sync_ui()
@@ -205,7 +208,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not key_event.pressed or key_event.echo:
 		return
 	if settings_open:
-		_handle_settings_input(key_event)
+		settings_overlay.handle_input(key_event)
+		if not settings_overlay.visible:
+			_close_settings()
 		get_viewport().set_input_as_handled()
 		return
 	if achievements_open:
@@ -437,16 +442,16 @@ func _setup_settings_preview_player() -> void:
 
 func _open_settings() -> void:
 	settings_open = true
-	settings_index = SETTINGS_MASTER
 	_hide_main_menu_for_submenu()
-	settings_backdrop.visible = true
-	settings_panel.visible = true
-	_update_settings_ui()
+	settings_backdrop.visible = false
+	settings_panel.visible = false
+	settings_overlay.open_settings()
 
 
 func _close_settings() -> void:
 	settings_open = false
 	settings_panel.visible = false
+	settings_overlay.close_settings()
 	_restore_main_menu_from_submenu()
 
 
