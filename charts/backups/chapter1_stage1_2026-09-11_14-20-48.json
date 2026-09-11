@@ -807,9 +807,9 @@
 		{
 			"connectNext": false,
 			"duration": 0.192307692307693,
-			"lane": 2,
+			"lane": 0,
 			"mash": 0.0,
-			"pitch": 3.0,
+			"pitch": 0.0,
 			"side": "opponent",
 			"time": 15.2884615384615,
 			"type": "hold"
@@ -817,9 +817,9 @@
 		{
 			"connectNext": false,
 			"duration": 0.192307692307693,
-			"lane": 0,
+			"lane": 2,
 			"mash": 0.0,
-			"pitch": 0.0,
+			"pitch": 3.0,
 			"side": "opponent",
 			"time": 15.2884615384615,
 			"type": "hold"
@@ -1273,6 +1273,16 @@
 			"side": "player",
 			"time": 20.8653846153846,
 			"type": "tap"
+		},
+		{
+			"connectNext": false,
+			"duration": 0.25,
+			"lane": 0,
+			"mash": 0,
+			"pitch": 0,
+			"side": "player",
+			"time": 21.2179487179487,
+			"type": "hold"
 		},
 		{
 			"connectNext": false,
