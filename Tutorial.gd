@@ -1,5 +1,9 @@
 extends Control
 
+signal mode_selection_finished(cancelled: bool)
+
+@export var mode_select_only := false
+
 const MENU_FONT := preload("res://fonts/Mona12TextJP.ttf")
 const CAT_TEXTURE := preload("res://images/cat.png")
 const CAT2_TEXTURE := preload("res://images/cat2.png")
@@ -498,6 +502,11 @@ var practice_pointer_position := Vector2.ZERO
 
 
 func _ready() -> void:
+	if mode_select_only:
+		get_node_or_null("Background").visible = false
+		_build_mode_select_overlay()
+		_show_mode_select_screen(MODE_SCREEN_PLAY_STYLE)
+		return
 	next_marker_text = PackedByteArray([0xe2, 0x96, 0xb6]).get_string_from_utf8()
 	var background := get_node_or_null("Background") as CanvasItem
 	if background:
@@ -1037,10 +1046,11 @@ func _show_mode_select_screen(screen: int) -> void:
 	mode_blink_timer = 0.0
 	mode_blink_on = true
 	mode_dim_rect.visible = true
-	cat_bubble.visible = false
-	_hide_player_bubbles()
-	yes_bubble.visible = false
-	no_bubble.visible = false
+	if not mode_select_only:
+		cat_bubble.visible = false
+		_hide_player_bubbles()
+		yes_bubble.visible = false
+		no_bubble.visible = false
 
 	for button in mode_buttons:
 		button.visible = screen == MODE_SCREEN_PLAY_STYLE
@@ -1104,7 +1114,11 @@ func _handle_mode_select_input(event: InputEvent) -> void:
 
 	match key_event.keycode:
 		KEY_ESCAPE:
-			get_tree().change_scene_to_file("res://StartMenu.tscn")
+			if mode_select_only:
+				mode_selection_finished.emit(true)
+				queue_free()
+			else:
+				get_tree().change_scene_to_file("res://StartMenu.tscn")
 			get_viewport().set_input_as_handled()
 		KEY_LEFT, KEY_RIGHT:
 			mode_selected_index = 1 - mode_selected_index
@@ -1145,6 +1159,10 @@ func _finish_mode_select() -> void:
 	mode_select_active = false
 	mode_confirming = false
 	mode_dim_rect.visible = false
+	if mode_select_only:
+		mode_selection_finished.emit(false)
+		queue_free()
+		return
 	_start_dialogue(0)
 
 

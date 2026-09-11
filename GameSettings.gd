@@ -6,7 +6,7 @@ var audio_offset_seconds := 0.0
 
 # Run-only selection, set by the battle's pre-game chooser.  It deliberately is
 # not persisted: every new run starts by asking for the play style again.
-var multiplayer := false
+var coop_enabled := false
 var human_side := 0 # 0 = P1, 1 = P2; only used in single-player.
 
 const LANE_ACTIONS := [
@@ -31,7 +31,7 @@ func save_audio_offset(value: float) -> void:
 
 
 func set_play_mode(use_multiplayer: bool, selected_human_side: int = 0) -> void:
-	multiplayer = use_multiplayer
+	coop_enabled = use_multiplayer
 	human_side = clampi(selected_human_side, 0, 1)
 
 
@@ -66,6 +66,8 @@ func lane_key_text(index: int) -> String:
 
 func _set_lane_key(index: int, keycode: int) -> void:
 	var action: String = LANE_ACTIONS[index]
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
 	InputMap.action_erase_events(action)
 	var event := InputEventKey.new()
 	event.physical_keycode = keycode

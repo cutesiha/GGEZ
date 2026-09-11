@@ -83,7 +83,7 @@ func handle_input(event: InputEvent) -> bool:
 				waiting_for_key = true
 			else:
 				_change_selected(1)
-		queue_redraw()
+	queue_redraw()
 	return true
 
 

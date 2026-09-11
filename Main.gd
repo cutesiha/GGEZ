@@ -12,6 +12,8 @@ const BPM := 132.0
 const CHART_PATH := "res://charts/chapter1_stage1.json"
 const CHART_CODEC := preload("res://ChartCodec.gd")
 const UI_FONT := preload("res://fonts/Mona12TextJP.ttf")
+const TUTORIAL_SCENE := preload("res://Tutorial.tscn")
+const MAIN_MENU_SCENE := preload("res://mainmenu.tscn")
 const NOTE_TEXTURES := [
 	preload("res://images/left.png"),
 	preload("res://images/down.png"),
@@ -90,15 +92,10 @@ var lane_released_p2 := [false, false, false, false]
 var p1_head_input_buffer: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var p2_head_input_buffer: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var receptor_flash := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]  # 0-3=P1, 4-7=P2
-const SELECT_PLAY_STYLE := 0
-const SELECT_SINGLE_PLAYER := 1
-
 var player_selection_open := true
-var player_selection_screen := SELECT_PLAY_STYLE
-var selected_human_side := 1
 var human_side := 1
 var ai_side := 0
-var multiplayer := false
+var coop_enabled := false
 var ai_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var ai_next_highlight_tap: float = 0.0
 
@@ -142,7 +139,8 @@ var slime_fx_rng := RandomNumberGenerator.new()
 var enemy_base_position := Vector2.ZERO
 var pause_open := false
 var pause_selection := 0
-var settings_overlay: Node2D
+var mode_selector: Control
+var pause_settings_menu: Node2D
 
 @onready var enemy_visual: TextureRect = $Visuals/Enemy
 
@@ -276,8 +274,7 @@ func _ready() -> void:
 	_build_status_bars()
 	_set_status_bars_visible(false)
 	_sync_status_bars()
-	settings_overlay = preload("res://SettingsOverlay.gd").new()
-	add_child(settings_overlay)
+	_open_play_mode_selector()
 
 
 func _build_status_bars() -> void:
@@ -372,72 +369,42 @@ func _build_note_outline_textures() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if settings_overlay and settings_overlay.visible:
-		if settings_overlay.handle_input(event):
-			get_viewport().set_input_as_handled()
+	if is_instance_valid(pause_settings_menu):
 		return
 	if pause_open:
 		_handle_pause_input(event)
 		return
-	if not player_selection_open:
-		if event is InputEventKey:
-			var pause_key := event as InputEventKey
-			if pause_key.pressed and not pause_key.echo and pause_key.keycode == KEY_ESCAPE:
-				_open_pause()
-				get_viewport().set_input_as_handled()
+	if player_selection_open:
 		return
 	if event is InputEventKey:
-		var key_event: InputEventKey = event
-		if not key_event.pressed or key_event.echo:
-			return
-		if key_event.keycode == KEY_ESCAPE:
-			get_tree().change_scene_to_file("res://mainmenu.tscn")
-		elif key_event.keycode == KEY_LEFT or key_event.physical_keycode == KEY_A:
-			selected_human_side = 0
-		elif key_event.keycode == KEY_RIGHT or key_event.physical_keycode == KEY_D:
-			selected_human_side = 1
-		elif key_event.keycode == KEY_ENTER or key_event.keycode == KEY_KP_ENTER or key_event.keycode == KEY_SPACE:
-			_confirm_player_selection()
-		queue_redraw()
-		return
-	if event is InputEventMouseButton:
-		var mouse_event: InputEventMouseButton = event
-		if not mouse_event.pressed or mouse_event.button_index != MOUSE_BUTTON_LEFT:
-			return
-		if _player_selection_rect(0).has_point(mouse_event.position):
-			selected_human_side = 0
-			_confirm_player_selection()
-		elif _player_selection_rect(1).has_point(mouse_event.position):
-			selected_human_side = 1
-			_confirm_player_selection()
-		queue_redraw()
+		var pause_key := event as InputEventKey
+		if pause_key.pressed and not pause_key.echo and pause_key.keycode == KEY_ESCAPE:
+			_open_pause()
+			get_viewport().set_input_as_handled()
 
 
-func _confirm_player_selection() -> void:
-	if player_selection_screen == SELECT_PLAY_STYLE:
-		if selected_human_side == 1: # multiplayer card
-			GameSettings.set_play_mode(true)
-			_start_battle_from_selection()
-		else:
-			player_selection_screen = SELECT_SINGLE_PLAYER
-			selected_human_side = 0
-			queue_redraw()
+func _open_play_mode_selector() -> void:
+	mode_selector = TUTORIAL_SCENE.instantiate() as Control
+	mode_selector.set("mode_select_only", true)
+	mode_selector.mode_selection_finished.connect(_on_mode_selection_finished)
+	add_child(mode_selector)
+
+
+func _on_mode_selection_finished(cancelled: bool) -> void:
+	mode_selector = null
+	if cancelled:
+		get_tree().change_scene_to_file("res://mainmenu.tscn")
 		return
-	GameSettings.set_play_mode(false, selected_human_side)
 	_start_battle_from_selection()
 
 
 func _start_battle_from_selection() -> void:
-	multiplayer = GameSettings.multiplayer
+	coop_enabled = GameSettings.coop_enabled
 	human_side = GameSettings.human_side
-	ai_side = -1 if multiplayer else 1 - human_side
+	ai_side = -1 if coop_enabled else 1 - human_side
 	player_selection_open = false
 	_set_status_bars_visible(true)
 	_reset_ai_state()
-
-
-func _player_selection_rect(side: int) -> Rect2:
-	return Rect2(245, 255, 330, 210) if side == 0 else Rect2(705, 255, 330, 210)
 
 
 func _open_pause() -> void:
@@ -457,6 +424,18 @@ func _close_pause() -> void:
 	queue_redraw()
 
 
+func _open_pause_settings() -> void:
+	pause_settings_menu = MAIN_MENU_SCENE.instantiate() as Node2D
+	pause_settings_menu.set("settings_only", true)
+	pause_settings_menu.settings_closed.connect(_on_pause_settings_closed)
+	add_child(pause_settings_menu)
+
+
+func _on_pause_settings_closed() -> void:
+	pause_settings_menu = null
+	queue_redraw()
+
+
 func _handle_pause_input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
@@ -473,7 +452,7 @@ func _handle_pause_input(event: InputEvent) -> void:
 	if key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER or key.keycode == KEY_SPACE:
 		match pause_selection:
 			0:
-				settings_overlay.open_settings()
+				_open_pause_settings()
 			1:
 				get_tree().change_scene_to_file("res://mainmenu.tscn")
 			2:
@@ -670,7 +649,7 @@ func _build_chart() -> void:
 
 # ============================================================
 func _process(delta: float) -> void:
-	if pause_open or (settings_overlay and settings_overlay.visible):
+	if pause_open or is_instance_valid(pause_settings_menu):
 		queue_redraw()
 		return
 	if finished:
@@ -699,16 +678,16 @@ func _process(delta: float) -> void:
 	# 입력 (이번 프레임 눌린 레인) — P1/P2 각자
 	var pressed_p1 := [false, false, false, false]
 	var pressed_p2 := [false, false, false, false]
-	if multiplayer or human_side == 0:
+	if coop_enabled or human_side == 0:
 		_read_p1_input(delta, pressed_p1)
-	if multiplayer or human_side == 1:
+	if coop_enabled or human_side == 1:
 		_read_p2_input(delta, pressed_p2)
 
 	# 곡 구간(phase) 감지 -> 하이라이트면 연타 카운터 모드, 아니면 기존 노트 판정
 	var phase: Dictionary = _get_phase(t)
 	var phase_type: String = String(phase.get("type", "normal"))
 	current_phase_type = phase_type
-	if not multiplayer and phase_type != "highlight" and _is_human_full_chord_held(t):
+	if not coop_enabled and phase_type != "highlight" and _is_human_full_chord_held(t):
 		for lane in range(4):
 			if human_side == 0:
 				pressed_p1[lane] = true
@@ -960,7 +939,7 @@ func _resolve_highlight() -> void:
 	else:
 		# A failed highlight is an enemy attack.  Single-player only damages the
 		# selected human; co-op damages both players.
-		if multiplayer:
+		if coop_enabled:
 			p1_hp -= HP_MISS_LOSS
 			p2_hp -= HP_MISS_LOSS
 		else:
@@ -1060,7 +1039,7 @@ func _hit(kind: String, rec: int, side: int, note_type: String = "tap") -> void:
 	_spawn_hit_note_burst(rec)
 	# In single-player the AI's judgments are not part of the displayed combo.
 	# In co-op either player's successful judgment extends the shared combo.
-	if multiplayer or side == human_side:
+	if coop_enabled or side == human_side:
 		combo += 1
 		shared_gauge = min(1.0, float(combo) / float(GAUGE_COMBO_REQUIRED))
 	var sound_kind := kind.to_lower()
@@ -1089,7 +1068,7 @@ func _spawn_hit_note_burst(rec: int) -> void:
 func _miss(rec: int, side: int) -> void:
 	# A partner's miss breaks the shared co-op combo.  AI misses do not affect a
 	# single-player run's combo.
-	if multiplayer or side == human_side:
+	if coop_enabled or side == human_side:
 		combo = 0
 		shared_gauge = 0.0
 	if side == 0:
@@ -1238,7 +1217,7 @@ func _draw() -> void:
 	draw_string(font, Vector2(40, 500), "P1", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color.WHITE)
 	draw_string(font, Vector2(1200, 500), "P2", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color.WHITE)
 	var mode_text: String
-	if multiplayer:
+	if coop_enabled:
 		mode_text = "MODE: 2 PLAYERS"
 	else:
 		mode_text = "MODE: P1 PLAYER / P2 AI" if human_side == 0 else "MODE: P1 AI / P2 PLAYER"
@@ -1256,7 +1235,7 @@ func _draw() -> void:
 		var txt := str(c) if c > 0 else "GO"
 		draw_string(font, Vector2(590, 300), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 60, Color("ffd76b"))
 		var countin_text: String
-		if multiplayer:
+		if coop_enabled:
 			countin_text = "P1: %s   /   P2: %s" % [_lane_keys_text(0), _lane_keys_text(1)]
 		else:
 			countin_text = "P1: %s   /   P2 AI" % _lane_keys_text(0) if human_side == 0 else "P1 AI   /   P2: %s" % _lane_keys_text(1)
@@ -1273,30 +1252,8 @@ func _draw() -> void:
 		draw_string(font, Vector2(560, 410), "Enter — 다시", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
 
 
-	if player_selection_open:
-		_draw_player_selection()
 	if pause_open:
 		_draw_pause_overlay()
-
-
-func _draw_player_selection() -> void:
-	draw_rect(Rect2(0, 0, 1280, 720), Color(0.03, 0.02, 0.06, 0.84))
-	var choosing_style := player_selection_screen == SELECT_PLAY_STYLE
-	draw_string(font, Vector2(390, 160), "CHOOSE PLAY STYLE" if choosing_style else "CHOOSE YOUR PLAYER", HORIZONTAL_ALIGNMENT_LEFT, -1, 42, Color("f2e9d0"))
-	draw_string(font, Vector2(350, 205), "Single: select a side / Multi: both players play" if choosing_style else "Choose the side you want to play", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
-	for side in range(2):
-		var card: Rect2 = _player_selection_rect(side)
-		var selected: bool = selected_human_side == side
-		var accent: Color = Color("e0863c") if side == 0 else Color("48a6a2")
-		var fill: Color = Color(accent, 0.32) if selected else Color("171322")
-		draw_rect(card, fill)
-		draw_rect(card, accent if selected else Color("4a4459"), false, 3.0)
-		var player_text: String = ("SINGLE" if side == 0 else "MULTI") if choosing_style else ("P1" if side == 0 else "P2")
-		var keys_text: String = ("Choose P1 or P2" if side == 0 else "P1 + P2") if choosing_style else _lane_keys_text(side)
-		draw_string(font, Vector2(card.position.x + 126, card.position.y + 65), player_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 34, accent.lightened(0.25))
-		draw_string(font, Vector2(card.position.x + 86, card.position.y + 110), keys_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("f2e9d0"))
-		draw_string(font, Vector2(card.position.x + 79, card.position.y + 160), "SELECTED" if selected else "", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, accent if selected else Color("8a8294"))
-	draw_string(font, Vector2(420, 625), "Click a card, or A / D then Enter", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("b7acc9"))
 
 
 func _draw_pause_overlay() -> void:
@@ -1325,7 +1282,7 @@ func _draw_highlight_overlay() -> void:
 	draw_string(font, Vector2(cx - 190, 300), "P1 %d  +  P2 %d  =  %d타" % [highlight_p1_taps, highlight_p2_taps, highlight_p1_taps + highlight_p2_taps],
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Color("f2e9d0"))
 	var highlight_input_text: String
-	if multiplayer:
+	if coop_enabled:
 		highlight_input_text = "P1: %s / P2: %s  MASH!" % [_lane_keys_text(0), _lane_keys_text(1)]
 	else:
 		highlight_input_text = "P1: %s  MASH!" % _lane_keys_text(0) if human_side == 0 else "P2: %s  MASH!" % _lane_keys_text(1)

@@ -1,5 +1,9 @@
 extends Node2D
 
+signal settings_closed
+
+@export var settings_only := false
+
 const BLINK_INTERVAL := 0.42
 const CONFIRM_BLINK_INTERVAL := 0.045
 const CONFIRM_BLINK_COUNT := 10
@@ -154,10 +158,17 @@ var stage_scroll_tween: Tween
 var stage_arrow_tween: Tween
 var player_move_tween: Tween
 var stage_flash_overlay: StageFlashOverlay
-var settings_overlay: Node2D
 
 
 func _ready() -> void:
+	if settings_only:
+		$CanvasGroup/hwa.visible = false
+		$CanvasGroup/gameobject.visible = false
+		_build_box_styles()
+		_load_current_settings()
+		_setup_settings_preview_player()
+		_open_settings()
+		return
 	arrow_text = PackedByteArray([0xe2, 0x96, 0xbc]).get_string_from_utf8()
 	_set_button_texts()
 	_build_box_styles()
@@ -172,8 +183,6 @@ func _ready() -> void:
 	stage_flash_overlay = StageFlashOverlay.new()
 	stage_flash_overlay.z_index = 20
 	add_child(stage_flash_overlay)
-	settings_overlay = preload("res://SettingsOverlay.gd").new()
-	add_child(settings_overlay)
 	_update_settings_ui()
 	_refresh_achievement_list()
 	_update_sync_ui()
@@ -208,9 +217,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not key_event.pressed or key_event.echo:
 		return
 	if settings_open:
-		settings_overlay.handle_input(key_event)
-		if not settings_overlay.visible:
-			_close_settings()
+		_handle_settings_input(key_event)
 		get_viewport().set_input_as_handled()
 		return
 	if achievements_open:
@@ -443,15 +450,18 @@ func _setup_settings_preview_player() -> void:
 func _open_settings() -> void:
 	settings_open = true
 	_hide_main_menu_for_submenu()
-	settings_backdrop.visible = false
-	settings_panel.visible = false
-	settings_overlay.open_settings()
+	settings_backdrop.visible = true
+	settings_panel.visible = true
+	_update_settings_ui()
 
 
 func _close_settings() -> void:
 	settings_open = false
 	settings_panel.visible = false
-	settings_overlay.close_settings()
+	if settings_only:
+		settings_closed.emit()
+		queue_free()
+		return
 	_restore_main_menu_from_submenu()
 
 
